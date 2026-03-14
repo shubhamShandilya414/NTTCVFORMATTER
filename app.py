@@ -1072,11 +1072,11 @@ with key_col1:
         "Enter your Groq API Key",
         type="password",
         placeholder="gsk_xxxxxxxxxxxxxxxxxxxxxxxx",
-        help="Get a free key at https://console.groq.com → API Keys → Create",
+        help="Get a free key at https://console.groq.com/keys→ API Keys → Create",
     )
 with key_col2:
     st.markdown("<br>", unsafe_allow_html=True)
-    st.link_button("🔗 Get Free Key", "https://console.groq.com", use_container_width=True)
+    st.link_button("🔗 Get Free Key", "https://console.groq.com/keys", use_container_width=True)
 
 st.markdown("")  # spacer
 
@@ -1209,7 +1209,7 @@ if template_file and input_file and groq_key:
                     pass
 
 elif not groq_key:
-    st.warning("🔑 Please enter your **Groq API Key** above (Step 1) to get started. [Get a free key →](https://console.groq.com)")
+    st.warning("🔑 Please enter your **Groq API Key** above (Step 1) to get started. [Get a free key →](https://console.groq.com/keys)")
 elif not template_file:
     st.info("📋 Please upload the **NTT Template** (.docx) file in Step 2.")
 elif not input_file:
