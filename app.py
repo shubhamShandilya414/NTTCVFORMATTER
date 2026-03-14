@@ -1072,7 +1072,7 @@ with key_col1:
         "Enter your Groq API Key",
         type="password",
         placeholder="gsk_xxxxxxxxxxxxxxxxxxxxxxxx",
-        help="Get a free key at https://console.groq.com/keys→ API Keys → Create",
+        help="Get a free key at https://console.groq.com/keys API Keys → Create",
     )
 with key_col2:
     st.markdown("<br>", unsafe_allow_html=True)
