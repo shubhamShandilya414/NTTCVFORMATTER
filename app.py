@@ -17,55 +17,83 @@ from pathlib import Path
 
 # ─── Page config ───
 st.set_page_config(
-    page_title="CV Transformer – NTT Format",
-    page_icon="📄",
+    page_title="CV Transformer — NTT DATA",
+    page_icon="🔷",
     layout="wide",
 )
 
 # ─── Custom CSS ───
 st.markdown("""
 <style>
+    /* NTT DATA Brand Colors */
+    :root {
+        --ntt-blue: #0072BC;
+        --ntt-dark: #002E6D;
+        --ntt-light: #E8F1FA;
+        --ntt-logo-blue: #6585C2;
+        --ntt-accent: #00A5E5;
+    }
     .main-header {
-        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-        padding: 2rem 2rem;
+        background: linear-gradient(135deg, #002E6D 0%, #0072BC 60%, #00A5E5 100%);
+        padding: 2rem 2rem 1.5rem 2rem;
         border-radius: 12px;
         margin-bottom: 1.5rem;
         text-align: center;
+        border-bottom: 4px solid #00A5E5;
     }
-    .main-header h1 { color: #e94560; margin: 0; font-size: 2.2rem; }
-    .main-header p  { color: #a8a8b3; margin: 0.3rem 0 0 0; font-size: 1rem; }
+    .main-header h1 { color: #FFFFFF; margin: 0; font-size: 2.2rem; letter-spacing: 0.5px; }
+    .main-header p  { color: #B8D4F0; margin: 0.4rem 0 0 0; font-size: 1rem; }
+    .main-header .dev-credit { color: #7BBEEE; font-size: 0.78rem; margin-top: 0.6rem; opacity: 0.9; }
     .step-card {
-        background: #f8f9fa;
-        border-left: 4px solid #e94560;
+        background: #E8F1FA;
+        border-left: 4px solid #0072BC;
         padding: 1rem 1.2rem;
         border-radius: 0 8px 8px 0;
         margin-bottom: 1rem;
     }
-    .step-card h3 { margin: 0 0 0.3rem 0; color: #1a1a2e; }
+    .step-card h3 { margin: 0 0 0.3rem 0; color: #002E6D; }
     .match-good  { color: #27ae60; font-weight: 600; }
     .match-ok    { color: #f39c12; font-weight: 600; }
     .match-poor  { color: #e74c3c; font-weight: 600; }
     .stDownloadButton > button {
-        background: linear-gradient(135deg, #e94560, #0f3460) !important;
+        background: linear-gradient(135deg, #0072BC, #002E6D) !important;
         color: white !important;
         border: none !important;
         padding: 0.6rem 2rem !important;
         font-size: 1.1rem !important;
     }
-    .api-key-box {
-        background: #fff3cd;
-        border: 2px solid #ffc107;
-        border-radius: 10px;
-        padding: 0.5rem 1rem;
-        margin-bottom: 1rem;
+    .stDownloadButton > button:hover {
+        background: linear-gradient(135deg, #00A5E5, #0072BC) !important;
     }
+    /* Primary button styling */
+    .stButton > button[kind="primary"] {
+        background: linear-gradient(135deg, #0072BC, #002E6D) !important;
+        border: none !important;
+    }
+    /* Info boxes */
+    .stAlert { border-left-color: #0072BC !important; }
+    /* Sidebar */
+    section[data-testid="stSidebar"] {
+        background: #f0f5fb;
+        border-right: 2px solid #0072BC;
+    }
+    .footer-box {
+        text-align: center;
+        padding: 1rem;
+        background: linear-gradient(135deg, #002E6D, #0072BC);
+        border-radius: 8px;
+        margin-top: 1rem;
+    }
+    .footer-box p { color: #B8D4F0; font-size: 0.8rem; margin: 0; }
+    .footer-box .dev { color: #FFFFFF; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.3rem; }
 </style>
 """, unsafe_allow_html=True)
 
 st.markdown("""
 <div class="main-header">
-    <h1>📄 CV Transformer – NTT Format</h1>
+    <h1>📄 CV Transformer — NTT DATA Format</h1>
     <p>Upload any CV → AI matches fields & extracts content → Download in NTT template format</p>
+    <p class="dev-credit">Developed by Shubham Shandilya</p>
 </div>
 """, unsafe_allow_html=True)
 
@@ -1001,22 +1029,37 @@ def generate_ntt_docx(data: dict, template_path: str) -> bytes:
 
 # ── Sidebar ──
 with st.sidebar:
+    st.markdown(
+        '<div style="text-align:center; padding:0.5rem 0 1rem 0;">'
+        '<span style="font-size:1.4rem; font-weight:700; color:#0072BC; letter-spacing:1px;">NTT DATA</span><br>'
+        '<span style="font-size:0.75rem; color:#6585C2;">CV Transformation Tool</span>'
+        '</div>',
+        unsafe_allow_html=True,
+    )
+    st.markdown("---")
     st.markdown("### 🧠 How It Works")
     st.markdown("""
     **Step 1** — Enter your Groq API key
     
     **Step 2** — Upload the NTT template (.docx) and an input CV (.docx or .pdf)
     
-    **Step 3** — HuggingFace `all-MiniLM-L6-v2` embeddings compute cosine similarity between input CV sections and NTT template fields
+    **Step 3** — HuggingFace `all-MiniLM-L6-v2` embeddings match CV fields to template
     
-    **Step 4** — Groq `LLaMA-3.3-70b-versatile` extracts and restructures the CV content based on the field mapping
+    **Step 4** — Groq `LLaMA-3.3-70b-versatile` extracts and restructures content
     
-    **Step 5** — A new .docx is generated in the NTT format
+    **Step 5** — A new .docx is generated in NTT DATA format
     """)
     st.markdown("---")
     st.markdown("### ⚙️ Advanced Settings")
     sim_threshold = st.slider("Similarity Threshold", 0.1, 0.9, 0.25, 0.05,
                               help="Minimum cosine similarity for field matching")
+    st.markdown("---")
+    st.markdown(
+        '<div style="text-align:center; color:#6585C2; font-size:0.75rem; padding-top:0.5rem;">'
+        'Developed by <strong>Shubham Shandilya</strong>'
+        '</div>',
+        unsafe_allow_html=True,
+    )
 
 # ── Main Area ──
 
@@ -1175,8 +1218,9 @@ elif not input_file:
 # ── Footer ──
 st.markdown("---")
 st.markdown(
-    '<div style="text-align:center; color:#888; font-size:0.85rem;">'
-    'Built with Streamlit • HuggingFace Transformers • Groq LLaMA • python-docx'
+    '<div class="footer-box">'
+    '<p class="dev">Developed by Shubham Shandilya</p>'
+    '<p>Powered by HuggingFace Transformers • Groq LLaMA • Streamlit • python-docx</p>'
     '</div>',
     unsafe_allow_html=True,
 )
